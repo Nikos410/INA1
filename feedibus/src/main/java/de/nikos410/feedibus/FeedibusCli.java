@@ -3,6 +3,8 @@ package de.nikos410.feedibus;
 import java.io.IOException;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 public class FeedibusCli {
 
     private final CommandLineReader commandLineReader;
@@ -46,8 +48,28 @@ public class FeedibusCli {
 
     private List<String> getRssUrls(String websiteUrl) {
 
-        return websiteDownloader.downloadWebsite(websiteUrl)
+        final List<String> rssUrls = websiteDownloader.downloadWebsite(websiteUrl)
                 .thenApply(WebsiteParser::findRssUrls)
                 .join();
+
+        return rssUrls.stream()
+                .map(url -> ensureAbsoluteUrl(websiteUrl, url))
+                .collect(toList());
+    }
+
+    private String ensureAbsoluteUrl(String baseUrl, String possibleRelativeUrl) {
+
+        if (isRelativeUrl(possibleRelativeUrl)) {
+            // TODO: Properly combine the URL here
+            return baseUrl + possibleRelativeUrl;
+        } else {
+            return possibleRelativeUrl;
+        }
+    }
+
+    private boolean isRelativeUrl(String url) {
+
+        // TODO: What about relative URLs that don't start with a slash?
+        return url.startsWith("/");
     }
 }
