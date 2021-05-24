@@ -9,10 +9,6 @@ public class RssItem {
 
     @XmlElement
     private String title;
-    @XmlElement
-    private String description;
-    @XmlElement
-    private String link;
 
     public String getTitle() {
         return title;
@@ -22,28 +18,10 @@ public class RssItem {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
-
     @Override
     public String toString() {
         return "RssItem{" +
                 "title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", link='" + link + '\'' +
                 '}';
     }
 }

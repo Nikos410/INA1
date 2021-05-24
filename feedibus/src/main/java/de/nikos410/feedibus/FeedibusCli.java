@@ -1,11 +1,19 @@
 package de.nikos410.feedibus;
 
+import de.nikos410.feedibus.model.RssChannel;
+import de.nikos410.feedibus.model.RssFeed;
+import de.nikos410.feedibus.model.RssItem;
 import de.nikos410.feedibus.util.*;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.channels.Channel;
+import java.text.MessageFormat;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.text.MessageFormat.format;
 
 public class FeedibusCli {
 
@@ -28,13 +36,19 @@ public class FeedibusCli {
 
         final URI websiteUri = getWebsiteUri();
         final List<URI> rssUris = findRssUris(websiteUri);
-        final URI firstRssUri = rssUris.get(0);
-        System.out.println("Downloading first RSS feed from " + firstRssUri);
 
-        final RssFeedParser rssFeedParser = new RssFeedParser();
-        websiteDownloader.downloadWebsite(firstRssUri)
-                .thenApply(rssFeedParser::parse)
-                .thenAccept(System.out::println).join();
+        if (rssUris.isEmpty()) {
+            System.out.println("No RSS feed found.");
+            return;
+        }
+
+        final int numberOfRssFeeds = rssUris.size();
+        System.out.println(format("Found {0} RSS feed(s)", numberOfRssFeeds));
+        if (numberOfRssFeeds > 1) {
+            System.out.println("Showing first feed only.");
+        }
+
+        downloadAndPrintRssFeed(rssUris.get(0));
     }
 
     private URI getWebsiteUri() {
@@ -58,7 +72,6 @@ public class FeedibusCli {
     }
 
 
-
     private List<URI> findRssUris(URI websiteUri) {
 
         return websiteDownloader.downloadWebsite(websiteUri)
@@ -66,4 +79,43 @@ public class FeedibusCli {
                 .join();
     }
 
+    private void downloadAndPrintRssFeed(URI rssFeedUri) {
+
+        websiteDownloader.downloadWebsite(rssFeedUri)
+                .thenApply(RssFeedParser::parse)
+                .thenAccept(this::printRssFeed)
+                .join();
+    }
+
+    private void printRssFeed(RssFeed rssFeed) {
+
+        final List<RssChannel> channels = rssFeed.getChannels();
+        if (channels.isEmpty()) {
+            System.out.println("No channel found in feed.");
+            return;
+        }
+
+        final int numberOfChannels = channels.size();
+        System.out.println(format("Found {0} channel(s).", numberOfChannels));
+
+        if (numberOfChannels > 1) {
+            System.out.println(format("Showing first channel only."));
+        }
+
+        printRssChannel(channels.get(0));
+    }
+
+    private void printRssChannel(RssChannel rssChannel) {
+
+        System.out.println("========");
+        System.out.println("Title: " + rssChannel.getTitle());
+        System.out.println("Description: " + rssChannel.getDescription());
+
+        final List<RssItem> items = rssChannel.getItems();
+        System.out.println(items.size() + " items:");
+        System.out.println(items.stream()
+                .map(RssItem::getTitle)
+                .map(title -> "- Title: " + title)
+                .collect(Collectors.joining(String.format("%n"))));
+    }
 }
