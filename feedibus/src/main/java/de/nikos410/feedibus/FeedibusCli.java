@@ -3,13 +3,15 @@ package de.nikos410.feedibus;
 import de.nikos410.feedibus.model.RssChannel;
 import de.nikos410.feedibus.model.RssFeed;
 import de.nikos410.feedibus.model.RssItem;
-import de.nikos410.feedibus.util.*;
+import de.nikos410.feedibus.util.CommandLineReader;
+import de.nikos410.feedibus.util.RssFeedParser;
+import de.nikos410.feedibus.util.UriUtils;
+import de.nikos410.feedibus.util.WebsiteDownloader;
+import de.nikos410.feedibus.util.WebsiteParser;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.channels.Channel;
-import java.text.MessageFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
