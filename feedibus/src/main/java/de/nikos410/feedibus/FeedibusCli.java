@@ -1,9 +1,6 @@
 package de.nikos410.feedibus;
 
-import de.nikos410.feedibus.util.CommandLineReader;
-import de.nikos410.feedibus.util.UriUtils;
-import de.nikos410.feedibus.util.WebsiteDownloader;
-import de.nikos410.feedibus.util.WebsiteParser;
+import de.nikos410.feedibus.util.*;
 
 import java.io.IOException;
 import java.net.URI;
@@ -31,7 +28,13 @@ public class FeedibusCli {
 
         final URI websiteUri = getWebsiteUri();
         final List<URI> rssUris = findRssUris(websiteUri);
-        System.out.println(rssUris);
+        final URI firstRssUri = rssUris.get(0);
+        System.out.println("Downloading first RSS feed from " + firstRssUri);
+
+        final RssFeedParser rssFeedParser = new RssFeedParser();
+        websiteDownloader.downloadWebsite(firstRssUri)
+                .thenApply(rssFeedParser::parse)
+                .thenAccept(System.out::println).join();
     }
 
     private URI getWebsiteUri() {
