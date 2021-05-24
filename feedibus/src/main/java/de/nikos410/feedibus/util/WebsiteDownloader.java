@@ -1,4 +1,4 @@
-package de.nikos410.feedibus;
+package de.nikos410.feedibus.util;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -10,17 +10,17 @@ public class WebsiteDownloader {
 
     private final HttpClient httpClient = buildHttpClient();
 
-    public CompletableFuture<String> downloadWebsite(String url) {
+    public CompletableFuture<String> downloadWebsite(URI uri) {
 
-        final HttpRequest httpRequest = buildHttpRequest(url);
+        final HttpRequest httpRequest = buildHttpRequest(uri);
         return httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body);
     }
 
-    private HttpRequest buildHttpRequest(String url) {
+    private HttpRequest buildHttpRequest(URI uri) {
 
         return HttpRequest.newBuilder()
-                .uri(URI.create(url))
+                .uri(uri)
                 .build();
     }
 

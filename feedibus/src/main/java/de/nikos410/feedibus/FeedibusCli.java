@@ -1,9 +1,14 @@
 package de.nikos410.feedibus;
 
-import java.io.IOException;
-import java.util.List;
+import de.nikos410.feedibus.util.CommandLineReader;
+import de.nikos410.feedibus.util.UriUtils;
+import de.nikos410.feedibus.util.WebsiteDownloader;
+import de.nikos410.feedibus.util.WebsiteParser;
 
-import static java.util.stream.Collectors.toList;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
 
 public class FeedibusCli {
 
@@ -24,32 +29,37 @@ public class FeedibusCli {
 
     public void run() {
 
-        final String websiteUrl = getWebsiteUrl();
-        final List<String> rssUrls = getRssUrls(websiteUrl);
-        System.out.println(rssUrls);
+        final URI websiteUri = getWebsiteUri();
+        final List<URI> rssUris = findRssUris(websiteUri);
+        System.out.println(rssUris);
     }
 
-    private String getWebsiteUrl() {
+    private URI getWebsiteUri() {
 
-        final String userEnteredUrl = commandLineReader.readLine("Please enter a website URL.");
-        return ensureHttps(userEnteredUrl);
+        final String userInput = commandLineReader.readLine("Please enter a website URI.");
+        return buildUriFromUserInput(userInput);
     }
 
-    private String ensureHttps(String url) {
+    private URI buildUriFromUserInput(String userInput) {
 
-        if (url.startsWith("https://")) {
-            return url;
-        } if (url.startsWith("http://")) {
-            return url.replace("http://", "https://");
-        } else {
-            return "https://" + url;
+        try {
+            return tryBuildUriFromUserInput(userInput);
+        } catch (URISyntaxException e) {
+            throw new IllegalArgumentException("Invalid URI entered.", e);
         }
     }
 
-    private List<String> getRssUrls(String websiteUrl) {
+    private URI tryBuildUriFromUserInput(String userInput) throws URISyntaxException {
 
-        return websiteDownloader.downloadWebsite(websiteUrl)
-                .thenApply(html -> WebsiteParser.findRssUrls(html, websiteUrl))
+        return URI.create(UriUtils.addProtocolIfNecessary(userInput, "https"));
+    }
+
+
+
+    private List<URI> findRssUris(URI websiteUri) {
+
+        return websiteDownloader.downloadWebsite(websiteUri)
+                .thenApply(html -> WebsiteParser.findRssUris(html, websiteUri))
                 .join();
     }
 

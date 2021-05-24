@@ -1,4 +1,4 @@
-package de.nikos410.feedibus;
+package de.nikos410.feedibus.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
