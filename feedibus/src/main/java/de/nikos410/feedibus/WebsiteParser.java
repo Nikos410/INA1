@@ -15,12 +15,12 @@ public final class WebsiteParser {
     private WebsiteParser() {
     }
 
-    public static List<String> findRssUrls(String html) {
+    public static List<String> findRssUrls(String html, String websiteUrl) {
 
         final String[] lines = html.split("[\r\n]");
         return Arrays.stream(lines)
                 .filter(WebsiteParser::isRssLine)
-                .map(WebsiteParser::getUrlFromRssLine)
+                .map(rssLine -> WebsiteParser.getUrlFromRssLine(rssLine, websiteUrl))
                 .collect(toList());
     }
 
@@ -30,13 +30,30 @@ public final class WebsiteParser {
         return matcher.matches();
     }
 
-    private static String getUrlFromRssLine(String rssLine) {
+    private static String getUrlFromRssLine(String rssLine, String baseUrl) {
 
         final Matcher matcher = HREF_PATTERN.matcher(rssLine);
         if (matcher.matches()) {
-            return matcher.group(1);
+            final String rssUrl = matcher.group(1);
+            return ensureAbsoluteUrl(baseUrl, rssUrl);
         } else {
             throw new IllegalArgumentException("RSS line contains no href tag: " + rssLine);
         }
+    }
+
+    private static String ensureAbsoluteUrl(String baseUrl, String possibleRelativeUrl) {
+
+        if (isRelativeUrl(possibleRelativeUrl)) {
+            // TODO: Properly combine the URL here
+            return baseUrl + possibleRelativeUrl;
+        } else {
+            return possibleRelativeUrl;
+        }
+    }
+
+    private static boolean isRelativeUrl(String url) {
+
+        // TODO: What about relative URLs that don't start with a slash?
+        return url.startsWith("/");
     }
 }

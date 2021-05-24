@@ -48,28 +48,9 @@ public class FeedibusCli {
 
     private List<String> getRssUrls(String websiteUrl) {
 
-        final List<String> rssUrls = websiteDownloader.downloadWebsite(websiteUrl)
-                .thenApply(WebsiteParser::findRssUrls)
+        return websiteDownloader.downloadWebsite(websiteUrl)
+                .thenApply(html -> WebsiteParser.findRssUrls(html, websiteUrl))
                 .join();
-
-        return rssUrls.stream()
-                .map(url -> ensureAbsoluteUrl(websiteUrl, url))
-                .collect(toList());
     }
 
-    private String ensureAbsoluteUrl(String baseUrl, String possibleRelativeUrl) {
-
-        if (isRelativeUrl(possibleRelativeUrl)) {
-            // TODO: Properly combine the URL here
-            return baseUrl + possibleRelativeUrl;
-        } else {
-            return possibleRelativeUrl;
-        }
-    }
-
-    private boolean isRelativeUrl(String url) {
-
-        // TODO: What about relative URLs that don't start with a slash?
-        return url.startsWith("/");
-    }
 }
