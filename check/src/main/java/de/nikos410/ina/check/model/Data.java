@@ -2,12 +2,14 @@ package de.nikos410.ina.check.model;
 
 public class Data {
 
+    private static final String DEFAULT_VALUE = "Keine Angabe";
+
     private String name;
     private String redirectUrl;
     private String description;
 
     public String getName() {
-        return name;
+        return getDefaultValueIfBlank(name);
     }
 
     public void setName(String name) {
@@ -15,7 +17,7 @@ public class Data {
     }
 
     public String getRedirectUrl() {
-        return redirectUrl;
+        return getDefaultValueIfBlank(redirectUrl);
     }
 
     public void setRedirectUrl(String redirectUrl) {
@@ -23,10 +25,19 @@ public class Data {
     }
 
     public String getDescription() {
-        return description;
+        return getDefaultValueIfBlank(description);
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    private String getDefaultValueIfBlank(String value) {
+
+        if (value == null || value.isBlank()) {
+            return DEFAULT_VALUE;
+        } else {
+            return value;
+        }
     }
 }
