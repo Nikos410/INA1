@@ -8,7 +8,7 @@
 <%
     if (request.getParameter("target") == null ||
             request.getParameter("target").isBlank()) {
-        response.sendRedirect("check-form.jsp?error=Ziel%20muss%20angegeben%20sein.");
+        response.sendRedirect("check?error=Ziel%20muss%20angegeben%20sein.");
     } else {
         response.sendRedirect(request.getParameter("target"));
     }

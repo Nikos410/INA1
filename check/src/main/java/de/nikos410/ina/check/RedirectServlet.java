@@ -11,7 +11,7 @@ import java.util.Optional;
 public class RedirectServlet extends HttpServlet {
 
     private static final String TARGET_PARAMETER_NAME = "target";
-    private static final String ERROR_URL = "check-form.jsp?error=Ziel%20muss%20angegeben%20sein.";
+    private static final String ERROR_URL = "check?error=Ziel%20muss%20angegeben%20sein.";
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
