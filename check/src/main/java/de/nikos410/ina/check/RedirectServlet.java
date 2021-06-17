@@ -1,13 +1,11 @@
 package de.nikos410.ina.check;
 
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-@WebServlet(name = "redirectServlet", value = "/redirect-servlet")
 public class RedirectServlet extends HttpServlet {
 
     private static final String TARGET_PARAMETER_NAME = "target";
