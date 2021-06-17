@@ -6,8 +6,8 @@
 </head>
 <body>
 <%
-    if (request.getParameter("error") != null ||
-            request.getParameter("error").isBlank()) {
+    if (request.getParameter("error") != null &&
+            !request.getParameter("error").isBlank()) {
         out.println("<p>" + request.getParameter("error") + "</p>")   ;
     }
 %>
