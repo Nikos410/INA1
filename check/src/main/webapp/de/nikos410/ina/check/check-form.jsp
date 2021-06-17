@@ -12,7 +12,7 @@
     }
 %>
 
-<form method="get" action="redirect.jsp">
+<form method="get" action="redirect-servlet">
     <input type="url" name="target" required>
     <input type="submit" value="Submit">
 </form>

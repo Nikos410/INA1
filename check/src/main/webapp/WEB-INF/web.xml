@@ -8,10 +8,27 @@
         <servlet-name>check-form</servlet-name>
         <jsp-file>/de/nikos410/ina/check/check-form.jsp</jsp-file>
     </servlet>
-    
     <servlet-mapping>
         <servlet-name>check-form</servlet-name>
         <url-pattern>/check</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>redirect-jsp</servlet-name>
+        <jsp-file>/de/nikos410/ina/check/redirect.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>redirect-jsp</servlet-name>
+        <url-pattern>/redirect-jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>redirectServlet</servlet-name>
+        <servlet-class>de.nikos410.ina.check.RedirectServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>redirectServlet</servlet-name>
+        <url-pattern>/redirect-servlet</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>
