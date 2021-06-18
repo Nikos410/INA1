@@ -1,41 +1,27 @@
 package de.nikos410.ina.check;
 
-import de.nikos410.ina.check.model.Data;
+import de.nikos410.ina.check.helper.RedirectControllerHelper;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
-import java.util.Optional;
+import java.util.Objects;
 
 public class RedirectServlet extends HttpServlet {
 
-    private static final String ERROR_URL = "check?error=Ziel%20muss%20angegeben%20sein.";
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        final Data bean = getBeanFromRequest(request);
-        setBeanForSession(request, bean);
-        response.sendRedirect(getRedirectUrl(bean));
+        getOrCreateControllerHelper(request)
+                .doGet(request, response);
     }
 
-    private Data getBeanFromRequest(HttpServletRequest httpServletRequest) {
+    private RedirectControllerHelper getOrCreateControllerHelper(HttpServletRequest request) {
 
-        final var bean = new Data();
-        bean.setName(httpServletRequest.getParameter("name"));
-        bean.setRedirectUrl(httpServletRequest.getParameter("target"));
-        bean.setDescription(httpServletRequest.getParameter("description"));
+        final RedirectControllerHelper controllerHelper = (RedirectControllerHelper) request.getSession()
+                .getAttribute(RedirectControllerHelper.class.getCanonicalName());
 
-        return bean;
-    }
-
-    private void setBeanForSession(HttpServletRequest request, Data bean) {
-
-        request.getSession().setAttribute("data", bean);
-    }
-
-    private String getRedirectUrl(Data bean) {
-
-        return Optional.ofNullable(bean.getRedirectUrl())
-                .orElse(ERROR_URL);
+        return Objects.requireNonNullElseGet(controllerHelper, RedirectControllerHelper::new);
     }
 }
