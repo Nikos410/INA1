@@ -1,4 +1,4 @@
-package de.nikos410.ina.check.helper;
+package de.nikos410.feedibus.web.controller.helper;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

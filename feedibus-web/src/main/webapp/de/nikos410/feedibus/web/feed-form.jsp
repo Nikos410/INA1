@@ -1,4 +1,4 @@
-<%@ page import="de.nikos410.ina.check.model.Data" %>
+<%@ page import="de.nikos410.feedibus.web.model.FeedReaderBean" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -12,33 +12,33 @@
         out.println("<p>" + request.getParameter("error") + "</p>")   ;
     }
 
-    final Data data = (Data) request.getSession().getAttribute("data");
+    final FeedReaderBean data = (FeedReaderBean) request.getSession().getAttribute("feed-reader");
 %>
 
 <form method="get" action="redirect-servlet">
     <label>
-        Name
-        <input type="text" name="name" placeholder="<%
+        URL 1
+        <input type="url" required name="urlOne" placeholder="<%
             if (data != null) {
-                out.println("Letzter Wert: " + data.getName());
+                out.println("Letzter Wert: " + data.urlOne());
             }
         %>">
     </label>
     <label>
-        Ziel-Adresse
-        <input type="url" name="target" placeholder="<%
+        URL 2
+        <input type="url" required name="urlTwo" placeholder="<%
             if (data != null) {
-                out.println("Letzter Wert: " + data.getRedirectUrl());
+                out.println("Letzter Wert: " + data.urlTwo());
             }
-        %>" required>
+        %>">
     </label>
     <label>
-        Beschreibung
-        <input type="text" name="description" placeholder="<%
+        URL 3
+        <input type="url" required name="urlThree" placeholder="<%
             if (data != null) {
-                out.println("Letzter Wert: " + data.getDescription());
+                out.println("Letzter Wert: " + data.urlThree());
             }
-        %>" >
+        %>">
     </label>
     <input type="submit" value="Los">
 </form>

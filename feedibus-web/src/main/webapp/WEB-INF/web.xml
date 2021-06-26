@@ -5,34 +5,25 @@
          version="4.0">
 
     <servlet>
-        <servlet-name>check-form</servlet-name>
-        <jsp-file>/de/nikos410/ina/check/check-form.jsp</jsp-file>
+        <servlet-name>feed-form</servlet-name>
+        <jsp-file>/de/nikos410/feedibus/web/feed-form.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
-        <servlet-name>check-form</servlet-name>
-        <url-pattern>/check</url-pattern>
+        <servlet-name>feed-form</servlet-name>
+        <url-pattern>/feed-form</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>redirect-jsp</servlet-name>
-        <jsp-file>/de/nikos410/ina/check/redirect.jsp</jsp-file>
+        <servlet-name>FeedReaderController</servlet-name>
+        <servlet-class>de.nikos410.feedibus.web.controller.FeedReaderController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>redirect-jsp</servlet-name>
-        <url-pattern>/redirect-jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>redirectServlet</servlet-name>
-        <servlet-class>de.nikos410.ina.check.RedirectServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>redirectServlet</servlet-name>
-        <url-pattern>/redirect-servlet</url-pattern>
+        <servlet-name>FeedReaderController</servlet-name>
+        <url-pattern>/find-feeds</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>
-        <welcome-file>/de/nikos410/ina/check/check-form.jsp</welcome-file>
+        <welcome-file>/de/nikos410/feedibus/web/feed-form.jsp</welcome-file>
     </welcome-file-list>
     
 </web-app>
