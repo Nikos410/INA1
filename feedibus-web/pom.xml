@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.nikos410</groupId>
-    <artifactId>ina.check</artifactId>
+    <artifactId>feedibus.web</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <packaging>war</packaging>
