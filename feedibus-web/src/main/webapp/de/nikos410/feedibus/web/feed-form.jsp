@@ -1,9 +1,9 @@
-<%@ page import="de.nikos410.feedibus.web.model.FeedReaderBean" %>
+<%@ page import="de.nikos410.feedibus.web.model.bean.FeedReaderBean" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>GOTO</title>
+    <title>Feedibus</title>
 </head>
 <body>
 <%
@@ -15,7 +15,7 @@
     final FeedReaderBean data = (FeedReaderBean) request.getSession().getAttribute("feed-reader");
 %>
 
-<form method="get" action="redirect-servlet">
+<form method="get" action="find-feeds">
     <label>
         URL 1
         <input type="url" required name="urlOne" placeholder="<%

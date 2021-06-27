@@ -1,5 +1,6 @@
 package de.nikos410.feedibus.web.controller.helper;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -14,7 +15,7 @@ public abstract class AbstractControllerHelper<T> {
         return bean;
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         this.bean = getBeanFromRequest(request);
         setSessionAttributes(request);
 
@@ -28,7 +29,7 @@ public abstract class AbstractControllerHelper<T> {
         session.setAttribute(getBeanAttributeName(), this.bean);
     }
 
-    protected abstract void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException;
+    protected abstract void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException;
 
     protected abstract T getBeanFromRequest(HttpServletRequest httpServletRequest);
 
