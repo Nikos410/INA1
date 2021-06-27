@@ -11,34 +11,12 @@
             !request.getParameter("error").isBlank()) {
         out.println("<p>" + request.getParameter("error") + "</p>")   ;
     }
-
-    final FeedReaderBean data = (FeedReaderBean) request.getSession().getAttribute("feed-reader");
 %>
 
 <form method="get" action="find-feeds">
     <label>
-        URL 1
-        <input type="url" required name="urlOne" placeholder="<%
-            if (data != null) {
-                out.println("Letzter Wert: " + data.urlOne());
-            }
-        %>">
-    </label>
-    <label>
-        URL 2
-        <input type="url" required name="urlTwo" placeholder="<%
-            if (data != null) {
-                out.println("Letzter Wert: " + data.urlTwo());
-            }
-        %>">
-    </label>
-    <label>
-        URL 3
-        <input type="url" required name="urlThree" placeholder="<%
-            if (data != null) {
-                out.println("Letzter Wert: " + data.urlThree());
-            }
-        %>">
+        URLs (Komma-getrennt angeben)
+        <input type="url" multiple required name="urls" />
     </label>
     <input type="submit" value="Los">
 </form>
