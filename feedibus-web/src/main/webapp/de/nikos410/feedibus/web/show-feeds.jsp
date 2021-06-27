@@ -27,7 +27,7 @@
                 out.println("<p>" + channel.getDescription() + "</p>");
                 out.println("<ul>");
                 for (RssItem item : channel.getItems()) {
-                    out.println("<li>" + item.getTitle() + "</li>");
+                    out.println("<li><a href=\"" + item.getLink() + "\">" + item.getTitle() + "</a></li>");
                 }
                 out.println("</ul>");
             }
